@@ -1,0 +1,32 @@
+// void MotorController::handleInput(int val)
+// {
+//     if (val == LOW && lastInputVal == HIGH) //If button set to GND. Toggle.
+//     {
+//         lastInputVal = LOW;
+//         toggle(true);
+
+//     } else if (val == HIGH && lastInputVal == LOW) 
+//     {
+//         lastInputVal = HIGH;
+//     }
+// }
+
+// void MotorController::handleInput(int val)
+// {
+//     if (val == LOW && lastInputVal == HIGH) //If button set to GND. Toggle.
+//     {
+//         lastInputVal = LOW;
+//         pulse(true);
+
+//     } else if (val == HIGH && lastInputVal == LOW) 
+//     {
+//         lastInputVal = HIGH;
+//     }
+// }
+
+// void MotorController::pulse (bool notifyServer /* =false */)
+// {
+//     setOn(notifyServer);
+//     delay(500);
+//     setOff(notifyServer);
+// }
