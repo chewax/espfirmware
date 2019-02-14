@@ -13,23 +13,6 @@ void MotorController::init(String name, String id)
     Controller::init(name, id);
 }
 
-//Performs default action
-void MotorController::defaultAction(bool notifyServer /* =false */)
-{
-    pulse(notifyServer);
-}
-
-//Performs ON action
-void MotorController::setOn(bool notifyServer /* =false */)
-{
-    Controller::setOn(notifyServer);
-}
-
-//Performs OFF action
-void MotorController::setOff(bool notifyServer /* =false */)
-{
-    Controller::setOff(notifyServer);
-}
 
 //Performs OFF action
 void MotorController::sense()
@@ -106,13 +89,4 @@ void MotorController::handleInput(uint32_t val)
     }
 
     computeSensorData();
-}
-
-void MotorController::pulse(bool notifyServer /* =false */)
-{
-    setOn(true);
-
-    timer.setTimeout(AUTOOFF_DELAY, [this]() {
-        this->setOff(true);
-    });
 }

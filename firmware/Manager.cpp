@@ -8,6 +8,7 @@
 #include "Manager.h"
 #include "Controller.h"
 #include "MotorController.h"
+#include "MotorPulseController.h"
 
 #define USE_SERIAL Serial
 
@@ -27,7 +28,7 @@ void Manager::init(String name, String macAddress, String mode)
 
     if (mode == "motorpulse")
     {
-        board = new MotorController();
+        board = new MotorPulseController();
     }
     else if ( mode == "switch")
     {
@@ -35,8 +36,7 @@ void Manager::init(String name, String macAddress, String mode)
     }
     else
     {
-        board = new Controller();
-        
+        board = new Controller();   
     }
 
     board->init(name, macAddress);
