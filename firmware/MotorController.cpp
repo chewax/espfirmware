@@ -10,19 +10,6 @@ MotorController::MotorController() : BoardController()
 void MotorController::init(String name, String id)
 {
     BoardController::init(name, id);
-
-    // attachInterrupt(digitalPinToInterrupt(sensorPin_A), magnet_detect_sensorA, RISING);//Initialize the intterrupt pin (Arduino digital pin 3)
-    // attachInterrupt(digitalPinToInterrupt(sensorPin_B), magnet_detect_sensorB, RISING);//Initialize the intterrupt pin (Arduino digital pin 1)
-
-    // using fn = void(*)();
-    // fn doorOpenedCB = []() -> void { doorStateOpened(); };
-    // fn doorClosedCB = []() -> void { doorStateClosed(); };
-    // fn doorUnknownCB = []() -> void { doorStateUnknown(); };
-
-    // attachInterrupt(digitalPinToInterrupt(sensorPin_A), doorOpenedCB, RISING);
-    // attachInterrupt(digitalPinToInterrupt(sensorPin_B), doorClosedCB, RISING);
-    // attachInterrupt(digitalPinToInterrupt(sensorPin_A), doorUnknownCB, FALLING);
-    // attachInterrupt(digitalPinToInterrupt(sensorPin_B), doorUnknownCB, FALLING);
 }
 
 //Performs default action
@@ -57,7 +44,8 @@ void MotorController::sense()
     result += lastKnownState;
     result += "\"}";
 
-    io->sendJSON("board:sense", result);
+    if (io)
+        io->sendJSON("board:sense", result);
 }
 
 
@@ -99,7 +87,8 @@ void MotorController::onStateChange(String newState)
     result += newState;
     result += "\"}";
 
-    io->sendJSON("board:sense", result);
+    if (io)
+        io->sendJSON("board:sense", result);
 }
 
 void MotorController::handleInput(uint32_t val)

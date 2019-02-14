@@ -14,7 +14,7 @@
 #include "SocketIO.h"
 #include "BoardManager.h"
 
-#define USE_SERIAL Serial
+#define USE_SERIAL Serial1
 #define WIFI_RECONNECT_TIMEOUT 60000
 #define RX_PIN 3   // GPIO3
 #define TX_PIN 1   // GPIO1
@@ -59,10 +59,8 @@ ConfigStruct config;
 //Setup
 void setup()
 {
-    pinMode(RX_PIN, INPUT_PULLUP);  //former RX
-    pinMode(TX_PIN, INPUT_PULLUP);  //former TX
-
-    initializeSerial();         //Initialize serial so it can be used to print
+    // pinMode(RX_PIN, INPUT_PULLUP);  //former RX
+    // initializeSerial();         //Initialize serial so it can be used to print
     config = loadBoardConfig(); //Load previously saved Wifi & Config on EEPROM
     initManager();              //Initialize board with EEPROM config or defaults
     initializeWiFi(); //Initialize Station and Access Point Modes
@@ -146,6 +144,8 @@ void checkIn()
     USE_SERIAL.println(result);
 
     io.sendJSON("board:register", result);
+
+    boardManager.board->sense();
 }
 
 //Handles action that was parsed from the socket message
@@ -155,7 +155,9 @@ void handleAction(String action)
 }
 
 void onConnection()
-{
+{   
+
+    boardManager.setIOHandler(&io);
 
     if (checkInOnConnect)
     {
@@ -163,7 +165,6 @@ void onConnection()
         checkInOnConnect = false;
     }
 
-    boardManager.setIOHandler(&io);
 }
 
 void onDisconnection()

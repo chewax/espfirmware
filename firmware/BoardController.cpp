@@ -54,7 +54,7 @@ void BoardController::setOn(bool notifyServer /* =false */)
     digitalWrite(relayPin, HIGH);
     relayState = HIGH;
 
-    if (notifyServer)
+    if (notifyServer && io)
     {
         io->sendMessage("board:setOn");
     }
@@ -66,7 +66,7 @@ void BoardController::setOff(bool notifyServer /* =false */)
     digitalWrite(relayPin, LOW);
     relayState = LOW;
 
-    if (notifyServer)
+    if (notifyServer && io)
     {
         io->sendMessage("board:setOff");
     }
