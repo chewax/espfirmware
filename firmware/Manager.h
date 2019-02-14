@@ -5,20 +5,20 @@
 */
 
 #include <Arduino.h>
-#include "BoardController.h"
+#include "Controller.h"
 #include "SocketIO.h"
 
-#ifndef BoardManager_h
-#define BoardManager_h
+#ifndef Manager_h
+#define Manager_h
 
-class BoardManager
+class Manager
 {
   public:
-    BoardManager();
+    Manager();
     void init(String name, String macAddress, String mode);
     void handleAction(String action);
     void loop();
-    BoardController* board;
+    Controller* board;
     String mode;
     void setIOHandler(SocketIO* io);
 

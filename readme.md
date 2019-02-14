@@ -13,5 +13,5 @@ All boards will have one relay. That relay can be actuated in one of two ways ei
 | toggle | board:defaultAction | - |
 
 
-> Note: Relay Pin can be configured in BoardController class init.
+> Note: Relay Pin can be configured in Controller class init.
 

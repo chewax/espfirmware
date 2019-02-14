@@ -5,19 +5,19 @@
 */
 
 #include <Arduino.h>
-#include "BoardManager.h"
-#include "BoardController.h"
+#include "Manager.h"
+#include "Controller.h"
 #include "MotorController.h"
 
 #define USE_SERIAL Serial
 
 //Constructor
-BoardManager::BoardManager()
+Manager::Manager()
 {
     USE_SERIAL.println("[SETUP] CREATING BOARD MANAGER");
 }
 
-void BoardManager::init(String name, String macAddress, String mode)
+void Manager::init(String name, String macAddress, String mode)
 {
     USE_SERIAL.println("[SETUP] INITIALIZING BOARD MANAGER");
 
@@ -35,7 +35,7 @@ void BoardManager::init(String name, String macAddress, String mode)
     }
     else
     {
-        board = new BoardController();
+        board = new Controller();
         
     }
 
@@ -43,18 +43,18 @@ void BoardManager::init(String name, String macAddress, String mode)
 }
 
 //Handles action that was parsed from the socket message
-void BoardManager::handleAction(String action)
+void Manager::handleAction(String action)
 {
     if (action == "setOn") board->setOn();
     if (action == "setOff") board->setOff();
 }
 
-void BoardManager::loop ()
+void Manager::loop ()
 {   
     board->loop();
 }
 
-void BoardManager::setIOHandler(SocketIO* io)
+void Manager::setIOHandler(SocketIO* io)
 {
     this->io = io;
     board->setIOHandler(io);

@@ -5,16 +5,17 @@
 */
 
 #include <Arduino.h>
-#include "BoardController.h"
+#include "Controller.h"
+#include "SimpleTimer.h"
 
 #define USE_SERIAL Serial
 
 //Constructor
-BoardController::BoardController()
+Controller::Controller()
 {
 }
 
-void BoardController::init(String name, String id)
+void Controller::init(String name, String id)
 {
     USE_SERIAL.println("[SETUP] INITIALIZING BOARD");
 
@@ -41,13 +42,13 @@ void BoardController::init(String name, String id)
 }
 
 //Performs default action
-void BoardController::defaultAction(bool notifyServer /* =false */)
+void Controller::defaultAction(bool notifyServer /* =false */)
 {
     toggle(notifyServer);
 }
 
 //Performs ON action
-void BoardController::setOn(bool notifyServer /* =false */)
+void Controller::setOn(bool notifyServer /* =false */)
 {
     digitalWrite(relayPin, HIGH);
     relayState = HIGH;
@@ -59,7 +60,7 @@ void BoardController::setOn(bool notifyServer /* =false */)
 }
 
 //Performs OFF action
-void BoardController::setOff(bool notifyServer /* =false */)
+void Controller::setOff(bool notifyServer /* =false */)
 {
     digitalWrite(relayPin, LOW);
     relayState = LOW;
@@ -72,20 +73,20 @@ void BoardController::setOff(bool notifyServer /* =false */)
 
 //Reads sensor information
 //Althought it may have 2 sensors, sensed output is always a state calculated from both readings...so for the outer world it has 1 sensor.
-void BoardController::sense()
+void Controller::sense()
 {
 
 
 }
 
-void BoardController::handleInput(uint32_t val)
+void Controller::handleInput(uint32_t val)
 {
 
 }
 
-void BoardController::loop()
+void Controller::loop()
 {   
-
+    timer.run();
     uint64_t now = millis();
 
     if ( (now - loopTimestamp) > LOOP_INTERVAL )
@@ -97,7 +98,7 @@ void BoardController::loop()
     }
 }
 
-void BoardController::toggle(bool notifyServer /* =false */)
+void Controller::toggle(bool notifyServer /* =false */)
 {
     relayState = !relayState; //Toggle Relay
     digitalWrite(relayPin, relayState);
@@ -115,7 +116,7 @@ void BoardController::toggle(bool notifyServer /* =false */)
     }
 }
 
-void BoardController::setIOHandler(SocketIO *io)
+void Controller::setIOHandler(SocketIO *io)
 {
     this->io = io;
     poll_available = true;

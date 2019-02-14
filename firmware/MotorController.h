@@ -1,10 +1,11 @@
 #include <Arduino.h>
-#include "BoardController.h"
+#include "Controller.h"
+
 
 #ifndef MotorController_h
 #define MotorController_h
 
-class MotorController : public BoardController
+class MotorController : public Controller
 {
   public:
     MotorController();
@@ -16,11 +17,12 @@ class MotorController : public BoardController
     virtual void handleInput(uint32_t val);
 
   protected:
+    String lastKnownState = "unknown";
     uint32_t lastInputVal = HIGH;
     void onStateChange(String newState);
-    String lastKnownState = "unknown";
     void pulse(bool notifyServer = false);
     void computeSensorData();
+    uint32_t AUTOOFF_DELAY = 10000;
 };
 
 #endif

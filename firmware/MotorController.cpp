@@ -3,13 +3,14 @@
 
 #define USE_SERIAL Serial
 
-MotorController::MotorController() : BoardController()
+MotorController::MotorController() : Controller()
 {
 }
 
 void MotorController::init(String name, String id)
 {
-    BoardController::init(name, id);
+
+    Controller::init(name, id);
 }
 
 //Performs default action
@@ -21,20 +22,19 @@ void MotorController::defaultAction(bool notifyServer /* =false */)
 //Performs ON action
 void MotorController::setOn(bool notifyServer /* =false */)
 {
-    BoardController::setOn(notifyServer);
+    Controller::setOn(notifyServer);
 }
 
 //Performs OFF action
 void MotorController::setOff(bool notifyServer /* =false */)
 {
-    BoardController::setOff(notifyServer);
+    Controller::setOff(notifyServer);
 }
-
 
 //Performs OFF action
 void MotorController::sense()
 {
-    BoardController::sense();
+    Controller::sense();
 
     String result;
 
@@ -49,8 +49,8 @@ void MotorController::sense()
 }
 
 
-//Reads sensor information
-//Althought it may have 2 sensors, sensed output is always a state calculated from both readings...so for the outer world it has 1 sensor.
+// Reads sensor information
+// Althought it may have 2 sensors, sensed output is always a state calculated from both readings...so for the outer world it has 1 sensor.
 void MotorController::computeSensorData()
 {
     int hallState = digitalRead(sensorPin);
@@ -59,7 +59,6 @@ void MotorController::computeSensorData()
 
     if (hallState)
         currentState = "closed";
-
     else
         currentState = "unknown";
 
@@ -71,9 +70,15 @@ void MotorController::computeSensorData()
 
 void MotorController::onStateChange(String newState)
 {
-    if (newState == "opened" || newState == "closed")
-        //Cuando llega a los topes desestimulo el relay
+    if (newState == "closed")
+        //Cuando cierra desestimulo el relay
         setOff(true);
+
+    if (newState == "unknown")
+        //Set delay to turn off
+        timer.setTimeout(AUTOOFF_DELAY, [this]() {
+            this->setOff(true);
+        });
 
     String result;
     
@@ -106,6 +111,8 @@ void MotorController::handleInput(uint32_t val)
 void MotorController::pulse(bool notifyServer /* =false */)
 {
     setOn(true);
-    delay(500);
-    setOff(true);
+
+    timer.setTimeout(AUTOOFF_DELAY, [this]() {
+        this->setOff(true);
+    });
 }

@@ -109,12 +109,12 @@ void handleDeviceSettings()
     html += "<select name=\"mode\">";
     html += "<option value=\"none\">none</option>";
     html += "<option value=\"motorpulse\">Motor Pulse Controller</option>";
+    // html += "<option value=\"switch\">Switch controller</option>";
     // html += "<option value=\"blinds\">Blinds Controller</option>";
-    html += "<option value=\"switch\">Switch controller</option>";
-    html += "<option value=\"valve\">Valve Controller</option>";
-    html += "<option value=\"luminosity\">Luminosity Controller</option>";
-    html += "<option value=\"motion\">Motion Controller</option>";
-    html += "<option value=\"entry\">Entry Controller</option>";
+    // html += "<option value=\"valve\">Valve Controller</option>";
+    // html += "<option value=\"luminosity\">Luminosity Controller</option>";
+    // html += "<option value=\"motion\">Motion Controller</option>";
+    // html += "<option value=\"entry\">Entry Controller</option>";
     html += "</select>";
     html += "</td>";
     html += "<tr>";

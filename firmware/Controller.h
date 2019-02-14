@@ -6,14 +6,15 @@
 
 #include <Arduino.h>
 #include "SocketIO.h"
+#include "SimpleTimer.h"
 
-#ifndef BoardController_h
-#define BoardController_h
+#ifndef Controller_h
+#define Controller_h
 
-class BoardController
+class Controller
 {
   public:
-    BoardController();
+    Controller();
 
     String id;
     String name;
@@ -24,12 +25,13 @@ class BoardController
     virtual void setOff(bool notifyServer=false);
     virtual void sense();
     virtual void handleInput(uint32_t val);
+    virtual void loop();
 
     void toggle();
-    void loop();
     void toggle(bool notifyServer=false);
     void setIOHandler(SocketIO* io);
     uint32_t relayState;
+
 
   protected:
     uint32_t relayPin;
@@ -43,6 +45,7 @@ class BoardController
     uint32_t POLL_INTERVAL = 5000;
     bool poll_available = false;
     bool initialized = false;
+    SimpleTimer timer;
 };
 
 #endif

@@ -12,7 +12,7 @@
 #include <Time.h>
 #include <TimeLib.h>
 #include "SocketIO.h"
-#include "BoardManager.h"
+#include "Manager.h"
 
 #define USE_SERIAL Serial1
 #define WIFI_RECONNECT_TIMEOUT 60000
@@ -53,7 +53,7 @@ boolean connect;
 long lastConnectTry = 0;
 
 SocketIO io;
-BoardManager boardManager;
+Manager Manager;
 ConfigStruct config;
 
 //Setup
@@ -74,8 +74,7 @@ void loop()
     io.loop();
     dnsServer.processNextRequest();
     httpServer.handleClient();
-    boardManager.loop();
-        
+    Manager.loop();
 
     if (connect)
     {
@@ -110,7 +109,7 @@ void loop()
 void initManager()
 {
     logger("Initializing manager", "SETUP");
-    boardManager.init(config.name, WiFi.macAddress(), String(config.mode));
+    Manager.init(config.name, WiFi.macAddress(), String(config.mode));
 }
 
 //Initialize SocketIO
@@ -133,11 +132,11 @@ void checkIn()
     
     String result;
 
-    result += asProperty("id", boardManager.board->id, true);
-    result += asProperty("name", boardManager.board->name, true);
-    result += asProperty("mode", boardManager.mode, true);
+    result += asProperty("id", Manager.board->id, true);
+    result += asProperty("name", Manager.board->name, true);
+    result += asProperty("mode", Manager.mode, true);
     result += asProperty("ip", toStringIp(WiFi.localIP()), true);
-    result += asProperty("relayState", String(boardManager.board->relayState), false);
+    result += asProperty("relayState", String(Manager.board->relayState), false);
 
     result = asJSONObj(result);
 
@@ -145,19 +144,19 @@ void checkIn()
 
     io.sendJSON("board:register", result);
 
-    boardManager.board->sense();
+    Manager.board->sense();
 }
 
 //Handles action that was parsed from the socket message
 void handleAction(String action)
 {
-    boardManager.handleAction(action);
+    Manager.handleAction(action);
 }
 
 void onConnection()
 {   
 
-    boardManager.setIOHandler(&io);
+    Manager.setIOHandler(&io);
 
     if (checkInOnConnect)
     {
