@@ -33,9 +33,8 @@ class BoardController
 
   protected:
     uint32_t relayPin;
-    uint32_t sensorPin_A;
-    uint32_t sensorPin_B;
-    uint32_t switchInputPin;
+    uint32_t sensorPin;
+    uint32_t inputPin;
     uint32_t switchState;
     SocketIO* io;
     uint64_t loopTimestamp = 0;

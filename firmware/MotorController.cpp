@@ -53,15 +53,11 @@ void MotorController::sense()
 //Althought it may have 2 sensors, sensed output is always a state calculated from both readings...so for the outer world it has 1 sensor.
 void MotorController::computeSensorData()
 {
-    int sensorA = digitalRead(sensorPin_A);
-    int sensorB = digitalRead(sensorPin_B);;
+    int hallState = digitalRead(sensorPin);
 
     String currentState;
 
-    if (sensorA && !sensorB)
-        currentState = "opened";
-
-    else if (sensorB && !sensorA)
+    if (hallState)
         currentState = "closed";
 
     else

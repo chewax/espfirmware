@@ -24,19 +24,17 @@ void BoardController::init(String name, String id)
     this->relayState = LOW;
     
 
-    switchInputPin = 2;
-    sensorPin_A = 3;
-    sensorPin_B = 1;
+    inputPin = 2;
+    sensorPin = 3;
     relayPin = 0;
     loopTimestamp = 0;
 
     //********** CHANGE PIN FUNCTION  TO GPIO **********
-    pinMode(sensorPin_A, INPUT_PULLUP);  //former RX
-    pinMode(sensorPin_B, INPUT_PULLUP);  //former TX
+    pinMode(sensorPin, INPUT_PULLUP);  //former RX
     //**************************************************
 
     pinMode(relayPin, OUTPUT);
-    pinMode(switchInputPin, INPUT_PULLUP);
+    pinMode(inputPin, INPUT_PULLUP);
 
     this->initialized = true;
     
@@ -94,7 +92,7 @@ void BoardController::loop()
     {   
         loopTimestamp = now;
         uint32_t val = 0;
-        val = digitalRead(switchInputPin);
+        val = digitalRead(inputPin);
         handleInput(val);
     }
 }
