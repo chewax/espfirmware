@@ -30,9 +30,9 @@ void Manager::init(String name, String macAddress, String mode)
     {
         board = new MotorPulseController();
     }
-    else if ( mode == "switch")
+    else if ( mode == "motor")
     {
-        /* code */
+        board = new MotorController();
     }
     else
     {

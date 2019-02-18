@@ -16,8 +16,6 @@ void MotorPulseController::setOn(bool notifyServer /* =false */)
 void MotorPulseController::pulse(bool notifyServer /* =false */)
 {
     MotorController::setOn(notifyServer);
-
-    timer.setTimeout(AUTOOFF_DELAY, [this]() {
-        this->setOff(true);
-    });
+    delay(500);
+    setOff(true);
 }
