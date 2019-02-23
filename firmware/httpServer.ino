@@ -162,7 +162,8 @@ void handleSettingsSave()
     //TODO send socket message to remove board.
     httpServer.send(200, "text/html", html);
 
-    saveBoardConfig(newconf);
+    // saveBoardConfig(newconf);
+    Utils::saveConfig(newconf);
 
     ESP.restart();
 }

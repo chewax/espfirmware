@@ -13,21 +13,22 @@
 #include <TimeLib.h>
 #include "SocketIO.h"
 #include "Manager.h"
+#include "Utils.h"
 
-#define USE_SERIAL Serial1
+#define USE_SERIAL Serial
 #define WIFI_RECONNECT_TIMEOUT 60000
 #define RX_PIN 3   // GPIO3
 #define TX_PIN 1   // GPIO1
 
-struct ConfigStruct
-{
-    char ssid[32];
-    char password[32];
-    char server[32];
-    char name[32];
-    char mode[32];
-    char configured[3];
-};
+// struct ConfigStruct
+// {
+//     char ssid[32];
+//     char password[32];
+//     char server[32];
+//     char name[32];
+//     char mode[32];
+//     char configured[3];
+// };
 
 ESP8266WebServer httpServer(80);
 DNSServer dnsServer;
@@ -59,13 +60,12 @@ ConfigStruct config;
 //Setup
 void setup()
 {
-    // pinMode(RX_PIN, INPUT_PULLUP);  //former RX
-    // initializeSerial();         //Initialize serial so it can be used to print
-    config = loadBoardConfig(); //Load previously saved Wifi & Config on EEPROM
+    initializeSerial();         //Initialize serial so it can be used to print
+    config = Utils::loadConfig();
     initManager();              //Initialize board with EEPROM config or defaults
-    initializeWiFi(); //Initialize Station and Access Point Modes
-    initializeWebServer();
-    initializeSocketIO(); //Establish SocketIO connection with server
+    initializeWiFi();           //Initialize Station and Access Point Modes
+    initializeWebServer();  
+    initializeSocketIO();       //Establish SocketIO connection with server
 }
 
 //Loop

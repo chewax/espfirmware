@@ -15,7 +15,7 @@
 //Empty constructor for globally declaring purposes
 SocketIO::SocketIO()
 {
-
+    _isConnected = false;
 }
 
 //Init function, to actually intilalize all needed variables and events
@@ -23,12 +23,13 @@ void SocketIO::init(String host, uint16_t port)
 {
     _host = host;
     _port = port;
-    
+
     _webSocket.beginSocketIO(_host, _port);
     _webSocket.onEvent(std::bind(&SocketIO::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 void SocketIO::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+
 
     switch(type) {
         case WStype_DISCONNECTED:
@@ -67,9 +68,6 @@ void SocketIO::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
             _webSocket.sendBIN(payload, length);
             break;
 
-        // default:
-        //     _isConnected = false;
-        //     break;
         }
 }
 
@@ -93,6 +91,14 @@ void SocketIO::heartbeat () {
 //PARAM: JSON (String) the json
 void SocketIO::sendJSON (String name, String JSON) {
 
+    if (_isConnected)
+        USE_SERIAL.println("IO CONNECTED");
+    else 
+        USE_SERIAL.println("IO NOT CONNECTED");
+
+    if (!_isConnected)
+        return;
+
     String message = "42[\"" + name + "\"," + JSON + "]";
     USE_SERIAL.println(message);
     _webSocket.sendTXT(message);
@@ -101,6 +107,15 @@ void SocketIO::sendJSON (String name, String JSON) {
 
 
 void SocketIO::sendMessage (String msg) {
+
+    if (_isConnected)
+        USE_SERIAL.println("IO CONNECTED");
+    else 
+        USE_SERIAL.println("IO NOT CONNECTED");
+
+
+    if (!_isConnected)
+        return;
 
     String message = "42[\"" + msg + "\"]";
     USE_SERIAL.println(message);
