@@ -76,7 +76,7 @@ void loop()
         //If length ssid == 0 then no config is available --> Dont attempt to connect;
         if (strlen(config.ssid) > 0)
         {
-            Utils::logger("No SSID selected", "WLAN")
+            Utils::logger("No SSID selected", "WLAN");
             connectToWifi();
         }
     }
