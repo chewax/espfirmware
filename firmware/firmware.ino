@@ -17,18 +17,7 @@
 
 #define USE_SERIAL Serial
 #define WIFI_RECONNECT_TIMEOUT 60000
-#define RX_PIN 3   // GPIO3
-#define TX_PIN 1   // GPIO1
 
-// struct ConfigStruct
-// {
-//     char ssid[32];
-//     char password[32];
-//     char server[32];
-//     char name[32];
-//     char mode[32];
-//     char configured[3];
-// };
 
 ESP8266WebServer httpServer(80);
 DNSServer dnsServer;
@@ -77,8 +66,8 @@ void loop()
     Manager.loop();
 
     if (connect)
-    {
-        USE_SERIAL.println("Reconnect attempt...");
+    {   
+        Utils::logger("Reconnect attempt", "WLAN");
         //Attempt to connect/reconnect
         //Reset lastReconnectTime
         lastConnectTry = millis();
@@ -87,7 +76,7 @@ void loop()
         //If length ssid == 0 then no config is available --> Dont attempt to connect;
         if (strlen(config.ssid) > 0)
         {
-            // USE_SERIAL.println("No SSID has been selected");
+            Utils::logger("No SSID selected", "WLAN")
             connectToWifi();
         }
     }
@@ -115,8 +104,7 @@ void initManager()
 //Initialize SocketIO
 void initializeSocketIO()
 {
-    USE_SERIAL.println("...");
-    USE_SERIAL.println("[SOCKET] Initializing SocketIO");
+    Utils::logger("Intializing SocketIO", "SETUP");
 
     String host(config.server);
 
@@ -140,7 +128,7 @@ void checkIn()
 
     result = asJSONObj(result);
 
-    USE_SERIAL.println(result);
+    Utils::debug("Intializing Board");
 
     io.sendJSON("board:register", result);
 

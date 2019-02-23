@@ -7,8 +7,7 @@
 #include <Arduino.h>
 #include "Controller.h"
 #include "SimpleTimer.h"
-
-#define USE_SERIAL Serial
+#include "Utils.h"
 
 //Constructor
 Controller::Controller()
@@ -17,7 +16,7 @@ Controller::Controller()
 
 void Controller::init(String name, String id)
 {
-    USE_SERIAL.println("[SETUP] INITIALIZING BOARD");
+    Utils::logger("Intializing Board", "SETUP");
 
     this->id = id;
     this->name = name;

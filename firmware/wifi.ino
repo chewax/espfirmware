@@ -5,9 +5,7 @@ void connectToWifi()
     WiFi.mode(WIFI_STA);
     WiFi.begin(config.ssid, config.password);
 
-    USE_SERIAL.print("[WIFI] Connecting to: ");
-    USE_SERIAL.print(config.ssid);
-
+    Utils::logger(String("Connecting to: ") + String(config.ssid), "WLAN");
     while (WiFi.status() != WL_CONNECTED)
     { // Wait for the Wi-Fi to connect
         delay(1000);
@@ -15,25 +13,24 @@ void connectToWifi()
     }
 
     USE_SERIAL.println(".");
-    USE_SERIAL.println("[WIFI] Connection established!");
-    USE_SERIAL.print("[WIFI] IP address:\t");
-    USE_SERIAL.println(WiFi.localIP());
+
+    Utils::logger("Connected :)", "WLAN");
+    Utils::logger( String("IP address: ") + Utils::toStringIp(WiFi.localIP()) , "WLAN");
 }
 
 //InitializesWiFi
 void initializeWiFi()
 {
 
-    USE_SERIAL.println("...");
     // connect = strlen(ssid) > 0; // Request WLAN connect if there is a SSID
     if (strlen(config.ssid) > 0)
-    {
-        USE_SERIAL.println("[WIFI] INITIALIZING STATION...");
+    {   
+        Utils::logger("YES CONFIG --> Initializing as STA (Station)", "WLAN");
         connectToWifi();
     }
     else
-    {
-        USE_SERIAL.println("[WIFI] <NO CONFIG> STARTING AP...");
+    {   
+        Utils::logger("NO CONFIG --> Initializing as AP (Access Point)", "WLAN");
         startAP();
     }
 }
@@ -58,11 +55,10 @@ void startAP()
 
     delay(500); // Without delay I've seen the IP address blank
 
-    USE_SERIAL.println("[WIFI] SoftAP Configured.");
-    USE_SERIAL.print("SSID: ");
-    USE_SERIAL.println(softAP_ssid);
-    USE_SERIAL.print("IP address: ");
-    USE_SERIAL.println(WiFi.softAPIP());
+
+    Utils::logger("SoftAP Configured", "WLAN");
+    Utils::logger(String("SSID: ") + String(softAP_ssid), "WLAN");
+    Utils::logger(String("IP address: ") + Utils::toStringIp(WiFi.softAPIP()) , "WLAN");
 
     // if DNSServer is started with "*" for domain name, it will reply with
     // provided IP to all DNS request

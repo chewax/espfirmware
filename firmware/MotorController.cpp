@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include "MotorController.h"
+#include "Utils.h"
 
-#define USE_SERIAL Serial
+
 
 MotorController::MotorController() : Controller()
 {

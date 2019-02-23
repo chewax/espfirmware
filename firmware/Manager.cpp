@@ -9,18 +9,17 @@
 #include "Controller.h"
 #include "MotorController.h"
 #include "MotorPulseController.h"
-
-#define USE_SERIAL Serial
+#include "Utils.h"
 
 //Constructor
 Manager::Manager()
 {
-    USE_SERIAL.println("[SETUP] CREATING BOARD MANAGER");
+
 }
 
 void Manager::init(String name, String macAddress, String mode)
 {
-    USE_SERIAL.println("[SETUP] INITIALIZING BOARD MANAGER");
+    Utils::logger("Intializing Board Manager", "SETUP");
 
     this->macAddress = macAddress;
     this->mode = mode;

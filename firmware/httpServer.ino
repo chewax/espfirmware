@@ -178,12 +178,13 @@ void handleNotFound()
 
 void initializeWebServer()
 {
-    USE_SERIAL.println('[SETUP] INITIALIZING WEB SERVER');
+
+    Utils::logger("Initializing HTTP Server", "SETUP");
 
     httpServer.on("/", handleDeviceSettings);
     httpServer.on("/settingssave", handleSettingsSave);
     httpServer.onNotFound(handleNotFound);
     httpServer.begin(); // Web server start
 
-    USE_SERIAL.print('[SETUP] HTTP Server Running on port 80');
+    Utils::logger("HTTP Server Running on port 80", "SETUP");
 }

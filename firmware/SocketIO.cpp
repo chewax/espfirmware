@@ -9,8 +9,9 @@
 #include <ESP8266WiFiMulti.h>
 #include <WebSocketsClient.h>
 #include "SocketIO.h"
+#include "Utils.h"
 
-#define USE_SERIAL Serial
+// #define USE_SERIAL Serial
 
 //Empty constructor for globally declaring purposes
 SocketIO::SocketIO()
@@ -33,7 +34,9 @@ void SocketIO::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
     switch(type) {
         case WStype_DISCONNECTED:
-            USE_SERIAL.printf("[SOCKET] Disconnected!\n");
+            
+            Utils::logger("Disconnected :(", "SOCKET");
+            // USE_SERIAL.printf("[SOCKET] Disconnected!\n");
             _isConnected = false;
             
             if (_onDisconnect) _onDisconnect();
@@ -41,7 +44,8 @@ void SocketIO::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
         case WStype_CONNECTED:
             {
-                USE_SERIAL.printf("[SOCKET] Connected to: %s\n",  payload);
+                Utils::logger("Connected :):)", "SOCKET");
+                // USE_SERIAL.printf("[SOCKET] Connected to: %s\n",  payload);
                 _isConnected = true;
 
 			    // send message to server when Connected
@@ -53,7 +57,8 @@ void SocketIO::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
             break;
 
         case WStype_TEXT:
-            USE_SERIAL.printf("[SOCKET] get text: %s\n", payload);
+            
+            // USE_SERIAL.printf("[SOCKET] get text: %s\n", payload);
             
             parseSocketPayload(payload);
             parseMessage(_RID);
@@ -61,7 +66,7 @@ void SocketIO::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
             break;
 
         case WStype_BIN:
-            USE_SERIAL.printf("[SOCKET] get binary length: %u\n", length);        
+            // USE_SERIAL.printf("[SOCKET] get binary length: %u\n", length);        
             hexdump(payload, length);
 
             // send data to server
@@ -91,34 +96,24 @@ void SocketIO::heartbeat () {
 //PARAM: JSON (String) the json
 void SocketIO::sendJSON (String name, String JSON) {
 
-    if (_isConnected)
-        USE_SERIAL.println("IO CONNECTED");
-    else 
-        USE_SERIAL.println("IO NOT CONNECTED");
-
     if (!_isConnected)
         return;
 
     String message = "42[\"" + name + "\"," + JSON + "]";
-    USE_SERIAL.println(message);
+    Utils::debug(message);
+    // USE_SERIAL.println(message);
     _webSocket.sendTXT(message);
 
 }
 
 
 void SocketIO::sendMessage (String msg) {
-
-    if (_isConnected)
-        USE_SERIAL.println("IO CONNECTED");
-    else 
-        USE_SERIAL.println("IO NOT CONNECTED");
-
-
     if (!_isConnected)
         return;
 
     String message = "42[\"" + msg + "\"]";
-    USE_SERIAL.println(message);
+    Utils::debug(message);
+    // USE_SERIAL.println(message);
     _webSocket.sendTXT(message);
 }
 
