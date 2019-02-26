@@ -24,9 +24,9 @@ void Controller::init(String name, String id)
     this->relayState = LOW;
     
 
-    inputPin = 2;
-    sensorPin = 3;
-    relayPin = 0;
+    inputPin = 0;
+    sensorPin = 2;
+    relayPin = 3;
     loopTimestamp = 0;
 
     //********** CHANGE PIN FUNCTION  TO GPIO **********
