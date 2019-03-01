@@ -8,7 +8,6 @@
 #include "Manager.h"
 #include "Controller.h"
 #include "MotorController.h"
-#include "MotorPulseController.h"
 #include "DHTController.h"
 #include "Utils.h"
 
@@ -26,11 +25,7 @@ void Manager::init(String name, String macAddress, String mode)
     this->mode = mode;
 
 
-    if (mode == "motorpulse")
-    {
-        board = new MotorPulseController();
-    }
-    else if ( mode == "motor")
+    if ( mode == "motor")
     {
         board = new MotorController();
     }

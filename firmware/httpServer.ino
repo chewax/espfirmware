@@ -109,7 +109,6 @@ void handleDeviceSettings()
     html += "<select name=\"mode\">";
     html += "<option value=\"none\">none</option>";
     html += "<option value=\"motor\">Motor Controller</option>";
-    html += "<option value=\"motorpulse\">Motor Pulse Controller</option>";
     html += "<option value=\"dht\">DHT Controller</option>";
     // html += "<option value=\"switch\">Switch controller</option>";
     // html += "<option value=\"blinds\">Blinds Controller</option>";
