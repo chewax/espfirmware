@@ -111,6 +111,7 @@ void handleDeviceSettings()
     html += "<option value=\"motor\">Motor Controller</option>";
     html += "<option value=\"motorpulse\">Motor Pulse Controller</option>";
     html += "<option value=\"dht\">DHT Controller</option>";
+    html += "<option value=\"current\">Current Sensor</option>";
     // html += "<option value=\"switch\">Switch controller</option>";
     // html += "<option value=\"blinds\">Blinds Controller</option>";
     // html += "<option value=\"valve\">Valve Controller</option>";
@@ -120,6 +121,17 @@ void handleDeviceSettings()
     html += "</select>";
     html += "</td>";
     html += "<tr>";
+
+    //ROW ====================
+    html += "</tr>";
+    html += "<td>";
+    html += "Current sensor alignment";
+    html += "</td>";
+    html += "<td>";
+    html += "<input type='text' placeholder='9999 to force realign' name='alignment' value='9999'/>";
+    html += "</td>";
+    html += "<tr>";
+
 
     //ROW ====================
     html += "</tr>";
@@ -160,6 +172,7 @@ void handleSettingsSave()
     httpServer.arg("name").toCharArray(newconf.name, sizeof(newconf.name));
     httpServer.arg("mode").toCharArray(newconf.mode, sizeof(newconf.mode));
     httpServer.arg("server").toCharArray(newconf.server, sizeof(newconf.server));
+    newconf.current_alignment = httpServer.arg("alignment").toInt();
 
     //TODO send socket message to remove board.
     httpServer.send(200, "text/html", html);

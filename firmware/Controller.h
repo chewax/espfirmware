@@ -11,6 +11,19 @@
 #ifndef Controller_h
 #define Controller_h
 
+#define D0 16
+#define D1 5
+#define D2 4
+#define D3 0
+#define D4 2
+#define D5 14
+#define D6 12
+#define D7 13
+#define D8 15
+#define A0 17
+#define RX 3
+#define TX 1
+
 class Controller
 {
   public:
@@ -38,6 +51,7 @@ class Controller
     uint32_t sensorPin;
     uint32_t inputPin;
     uint32_t switchState;
+
     SocketIO* io;
     uint64_t loopTimestamp = 0;
     uint64_t pollTimestamp = 0;

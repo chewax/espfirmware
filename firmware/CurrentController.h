@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "Controller.h"
+#include "EmonLib.h"
 
 
 #ifndef CurrentController_h
@@ -10,23 +11,26 @@ class CurrentController : public Controller
   public:
     CurrentController();
     virtual void init(String name, String id);
-    virtual void sense();
     virtual void handleInput(uint32_t val);
+    virtual void loop();
 
   protected:
-    String lastKnownState = "unknown";
-    uint32_t lastInputVal = HIGH;
-    void onStateChange(String newState);
+    EnergyMonitor emon1;
     void computeSensorData();
-    uint32_t AUTOOFF_DELAY = 10000;
-    int ACSoffset = 2500;
-    float vpp = 0;
+    void IRMS(int numberOfSamples);
 
-    // int mVperAmp = 66; // use 100 for 20A Module and 66 for 30A Module
-    // int RawValue= 0;
-    // double Voltage = 0;
-    // double Amps = 0;
-    // float vpp = 0;
+    uint32_t lastInputVal = HIGH;
+    uint64_t sampleTimestamp = 0;
+    uint32_t SAMPLE_INTERVAL = 5000;
+
+    float VCC = 3.3f; //supply voltage.
+    float VPC = 0; //volts per count
+    float ACVoltage = 230; //line voltage
+    float sensitivity = 0.066f; //model sensitivity
+    int alignment = 9999; //Means not configured
+
+    long sampleSum = 0;
+    uint32_t SAMPLING = 1480;
 };
 
 #endif

@@ -13,6 +13,7 @@ struct ConfigStruct
     char server[32];
     char name[32];
     char mode[32];
+    int current_alignment;
     char configured[3];
 };
 

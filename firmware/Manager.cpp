@@ -10,6 +10,7 @@
 #include "MotorController.h"
 #include "MotorPulseController.h"
 #include "DHTController.h"
+#include "CurrentController.h"
 #include "Utils.h"
 
 //Constructor
@@ -37,6 +38,10 @@ void Manager::init(String name, String macAddress, String mode)
     else if ( mode == "dht")
     {
         board = new DHTController();
+    }
+    else if ( mode == "current")
+    {
+        board = new CurrentController();
     }
     else
     {
