@@ -24,11 +24,11 @@ void Controller::init(String name, String id)
     this->relayState = LOW;
     
 
-    inputPin = 0;
-    sensorPin = 2;
-    relayPin = 3;
+    inputPin = D2;
+    sensorPin = D3;
+    relayPin = D1;
     loopTimestamp = 0;
-
+    
     //********** CHANGE PIN FUNCTION  TO GPIO **********
     pinMode(sensorPin, INPUT_PULLUP);  //former RX
     //**************************************************
