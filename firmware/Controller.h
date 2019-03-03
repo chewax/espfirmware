@@ -47,10 +47,23 @@ class Controller
 
 
   protected:
-    uint32_t relayPin;
-    uint32_t sensorPin;
-    uint32_t inputPin;
+    
+    uint32_t inputA;
+    
+    uint32_t relayA;
+    uint32_t relayB;
+
+    uint32_t sensorA;
+    uint32_t sensorB;
+    uint32_t sensorC;
+    uint32_t sensorD;
+    
+    uint32_t sensorA0;
+
+
+
     uint32_t switchState;
+
     SocketIO* io;
     uint64_t loopTimestamp = 0;
     uint64_t pollTimestamp = 0;

@@ -23,18 +23,28 @@ void Controller::init(String name, String id)
     this->switchState = LOW;
     this->relayState = LOW;
     
+    inputA = D1;
 
-    inputPin = D2;
-    sensorPin = D3;
-    relayPin = D1;
+    relayA = D2;
+    relayB = D3;
+
+    sensorA = D5;
+    sensorB = D6;
+    sensorC = D7;
+    sensorD = D8;
+
+    sensorA0 = A0;
+
     loopTimestamp = 0;
-    
-    //********** CHANGE PIN FUNCTION  TO GPIO **********
-    pinMode(sensorPin, INPUT_PULLUP);  //former RX
-    //**************************************************
 
-    pinMode(relayPin, OUTPUT);
-    pinMode(inputPin, INPUT_PULLUP);
+    pinMode(inputA, INPUT_PULLUP);
+
+    pinMode(relayA, OUTPUT);
+    pinMode(relayB, OUTPUT);
+    
+    pinMode(sensorA, INPUT_PULLUP);
+    pinMode(sensorB, INPUT_PULLUP);
+    pinMode(sensorC, INPUT_PULLUP);
 
     this->initialized = true;
     
@@ -49,7 +59,7 @@ void Controller::defaultAction(bool notifyServer /* =false */)
 //Performs ON action
 void Controller::setOn(bool notifyServer /* =false */)
 {
-    digitalWrite(relayPin, HIGH);
+    digitalWrite(relayA, HIGH);
     relayState = HIGH;
 
     if (notifyServer && io)
@@ -61,7 +71,7 @@ void Controller::setOn(bool notifyServer /* =false */)
 //Performs OFF action
 void Controller::setOff(bool notifyServer /* =false */)
 {
-    digitalWrite(relayPin, LOW);
+    digitalWrite(relayA, LOW);
     relayState = LOW;
 
     if (notifyServer && io)
@@ -92,7 +102,7 @@ void Controller::loop()
     {   
         loopTimestamp = now;
         uint32_t val = 0;
-        val = digitalRead(inputPin);
+        val = digitalRead(inputA);
         handleInput(val);
     }
 }
@@ -100,7 +110,7 @@ void Controller::loop()
 void Controller::toggle(bool notifyServer /* =false */)
 {
     relayState = !relayState; //Toggle Relay
-    digitalWrite(relayPin, relayState);
+    digitalWrite(relayA, relayState);
 
     if (notifyServer)
     {

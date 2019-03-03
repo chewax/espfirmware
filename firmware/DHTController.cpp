@@ -12,7 +12,7 @@ DHTController::DHTController() : Controller()
 void DHTController::init(String name, String id)
 {
     Controller::init(name, id);
-    dht = new DHT(sensorPin, DHTTYPE);
+    dht = new DHT(sensorA, DHTTYPE);
     dht->begin();
 }
 

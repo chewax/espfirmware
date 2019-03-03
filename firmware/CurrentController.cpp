@@ -12,7 +12,7 @@ void CurrentController::init(String name, String id)
 {
     Controller::init(name, id);
 
-    // pinMode(sensorPin, INPUT);
+    // pinMode(sensorA, INPUT);
     vpp = 3.3f / 1024; /* 220v / 1024 */ 
 }
 
@@ -29,13 +29,13 @@ void CurrentController::sense()
 void CurrentController::computeSensorData()
 {
 
-    int counts = analogRead(sensorPin);
+    int counts = analogRead(sensorA);
     // float voltage = counts * vpp;
     Utils::debug(String("Counts : ") + String(counts));
     // Utils::debug(String("Voltage : ") + String(voltage,3));
 
 
-    // RawValue = analogRead(inputPin);
+    // RawValue = analogRead(inputA);
 
     // Serial.println(RawValue, 3);
 

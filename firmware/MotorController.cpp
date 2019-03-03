@@ -22,11 +22,8 @@ void MotorController::sense()
 
     String result;
 
-    result += "{\"";
-    result += "state";
-    result += "\":\"";
-    result += lastKnownState;
-    result += "\"}";
+    result += Utils::asProperty("state", lastKnownState, false);
+    result = Utils::asJSONObj(result);
 
     if (io)
         io->sendJSON("board:sense", result);
@@ -37,12 +34,17 @@ void MotorController::sense()
 // Althought it may have 2 sensors, sensed output is always a state calculated from both readings...so for the outer world it has 1 sensor.
 void MotorController::computeSensorData()
 {
-    int hallState = digitalRead(sensorPin);
+    int sensorA_state = digitalRead(sensorA);
+    int sensorB_state = digitalRead(sensorB);
 
     String currentState;
 
-    if (hallState)
+    if (sensorA_state && !sensorB_state)
+        currentState = "opened";
+
+    else if (sensorB_state && !sensorA_state)
         currentState = "closed";
+
     else
         currentState = "unknown";
 
@@ -54,23 +56,14 @@ void MotorController::computeSensorData()
 
 void MotorController::onStateChange(String newState)
 {
-    if (newState == "closed")
-        //Cuando cierra desestimulo el relay
+    if (newState == "opened" || newState == "closed")
+        //Cuando llega a los topes desestimulo el relay
         setOff(true);
 
-    if (newState == "unknown")
-        //Set delay to turn off
-        timer.setTimeout(AUTOOFF_DELAY, [this]() {
-            this->setOff(true);
-        });
-
     String result;
-    
-    result += "{\"";
-    result += "state";
-    result += "\":\"";
-    result += newState;
-    result += "\"}";
+
+    result += Utils::asProperty("state", newState, false);
+    result = Utils::asJSONObj(result);
 
     if (io)
         io->sendJSON("board:sense", result);
