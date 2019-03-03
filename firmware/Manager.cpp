@@ -9,6 +9,7 @@
 #include "Controller.h"
 #include "MotorController.h"
 #include "DHTController.h"
+#include "ValveController.h"
 #include "Utils.h"
 
 //Constructor
@@ -30,6 +31,10 @@ void Manager::init(String name, String macAddress, String mode)
         board = new MotorController();
     }
     else if ( mode == "dht")
+    {
+        board = new DHTController();
+    }
+    else if ( mode == "valve")
     {
         board = new DHTController();
     }

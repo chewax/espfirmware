@@ -60,8 +60,6 @@ class Controller
     
     uint32_t sensorA0;
 
-
-
     uint32_t switchState;
 
     SocketIO* io;
