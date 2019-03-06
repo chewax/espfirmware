@@ -26,17 +26,17 @@ void Manager::init(String name, String macAddress, String mode)
     this->mode = mode;
 
 
-    if ( mode == "motor")
+    if ( mode == "motor" )
     {
         board = new MotorController();
     }
-    else if ( mode == "dht")
+    else if ( mode == "dht" )
     {
         board = new DHTController();
     }
-    else if ( mode == "valve")
+    else if ( mode == "valve" )
     {
-        board = new DHTController();
+        board = new ValveController();
     }
     else
     {

@@ -85,7 +85,6 @@ void Controller::setOff(bool notifyServer /* =false */)
 void Controller::sense()
 {
 
-
 }
 
 void Controller::handleInput(uint32_t val)
